@@ -1,0 +1,39 @@
+<!-- Modal para adicionar contas -->
+<div class="ui modal" id="modalConta">
+    <div class="header">
+        Adicionar Conta
+    </div>
+    <div class="content">
+        <form class="ui form" id="formConta">
+            <div class="sixteen wide required field">
+                <label for="descricao">Descrição</label>
+                <input type="text" id="descricao" name="descricao" placeholder="Diga algo sobre esta conta">
+            </div>
+            <div class="three wide required fields">
+                <div class="field">
+                    <label for="data_vencimento">Vencimento</label>
+                    <input type="date" id="data_vencimento" name="data_vencimento" placeholder="Informe o vencimento">
+                </div>
+                <div class="field">
+                    <label for="valor">Valor</label>
+                    <input type="text" id="valor" name="valor" placeholder="Qual valor desta conta?">
+                </div>
+                <div class="field">
+                    <label for="status">Status</label>
+                    <select class="ui fluid dropdown" id="status" name="status">
+                        <option value="Pagar">Vou pagar</option>
+                        <option value="Pago">Já paguei</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="actions">
+        <div class="ui negative button">Sair</div>
+        <button class="ui positive right labeled icon button" onclick="salvaConta();" type="button">
+            Adicionar
+            <i class="checkmark icon"></i>
+        </button>
+    </div>
+</div>

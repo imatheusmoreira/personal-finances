@@ -1,0 +1,43 @@
+<div class="ui secondary menu">
+    <div class="left menu">
+        <h1 class="ui header">
+            <i class="credit card outline icon"></i>{{viewTitle}}
+        </h1>
+    </div>
+    <div class="right menu">
+
+    </div>
+</div>
+
+<form class="ui form">
+
+    <table class="ui celled table">
+        <thead>
+            <tr>
+                <th>Vencimento</th>
+                <th>Descrição</th>
+                <th>Valor</th>
+                <th>Inserido há</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each list}}
+            <tr>
+                <td>{{formatDate this.data_vencimento day="numeric" month="long" year="numeric"}}
+                    ({{formatRelative this.data_vencimento}})</td>
+                <td>{{this.descricao}}</td>
+                <td>{{this.valor}}</td>
+                <td>{{formatRelative this.data_de_insercao}}</td>
+               <td>
+                    {{#ifCond this.status 'Pagar'}}
+                        <a href="/contas/pagar/{{this._id}}" class="ui fluid positive button" onclick="return confirm('Tem certeza que deseja marcar esta conta como paga?');">Pagar</a>
+                    {{else}}
+                        <button class="ui fluid primary button" type="button">Pago</button>
+                    {{/ifCond}}
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</form>

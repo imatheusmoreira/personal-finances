@@ -1,0 +1,96 @@
+const express = require('express');
+var router = express.Router();
+const mongoose = require('mongoose');
+const Conta = mongoose.model('Conta');
+
+router.post('/novo', (req, res) => {
+    res.json(insereConta(req, res));
+});
+
+router.get(['/', '/pagar'], (req, res) => {
+    Conta
+        .find({ 'status': 'Pagar' })
+        .sort({ data_vencimento: 'asc' }) //Criteria can be asc, desc, ascending, descending, 1, or -1
+        .exec(function (err, data) {
+            if (!err) {
+                res.render('contas/contasListagem', {
+                    viewTitle: "Pagar",
+                    list: data
+                });
+            }
+            else {
+                console.log('Error in retrieving contas list :' + err);
+            }
+        });
+});
+
+router.get('/pagar/:id', (req, res) => {
+    pagaConta(req, res);
+});
+
+router.get('/excluir/:id', (req, res) => {
+    Conta.findByIdAndRemove(req.params.id, (err, doc) => {
+        if (!err) {
+            res.redirect('/contas/historico');
+        }
+        else { console.log('Error in conta delete :' + err); }
+    });
+});
+
+router.get('/vencidas', (req, res) => {
+    Conta
+        .find({ 'status': 'Pagar', data_vencimento: { $lte: new Date() } })
+        .sort({ data_vencimento: 'asc' }) //Criteria can be asc, desc, ascending, descending, 1, or -1
+        .exec(function (err, data) {
+            if (!err) {
+                res.render('contas/contasListagem', {
+                    viewTitle: "Vencidas",
+                    list: data
+                });
+            }
+            else {
+                console.log('Error in retrieving contas list :' + err);
+            }
+        });
+});
+
+router.get('/historico', (req, res) => {
+    Conta.find((err, data) => {
+        if (!err) {
+            res.render('contas/contasHistorico', {
+                viewTitle: "Todas as Contas",
+                list: data
+            });
+        }
+        else {
+            console.log('Error in retrieving contas list :' + err);
+        }
+    }).sort({ data_vencimento: 'desc' });
+});
+
+//Funções
+function insereConta(req, res) {
+    var conta = new Conta();
+    conta.descricao = req.body.descricao;
+    conta.data_vencimento = req.body.data_vencimento;
+    conta.valor = req.body.valor;
+    conta.status = req.body.status;
+    conta.data_de_insercao = new Date();
+
+    conta.save((err, data) => {
+        if (!err)
+            return data;
+        else {
+            return err;
+        }
+    });
+}
+
+function pagaConta(req, res) {
+    Conta.findByIdAndUpdate({ _id: req.params.id }, { status: 'Pago' }, (err, doc) => {
+        if (!err) { res.redirect('/contas/historico'); }
+        else { console.log('Error during record update : ' + err); }
+    });
+}
+
+module.exports = router;

@@ -1,0 +1,20 @@
+{
+  "name": "financas",
+  "version": "1.0.0",
+  "description": "Aplicativo para auxiliar nas finanças",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matheus Moreira",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.2",
+    "handlebars": "^4.1.1",
+    "handlebars-intl": "^1.1.2",
+    "mongoose": "^5.4.20",
+    "nodemon": "^1.18.10"
+  }
+}
