@@ -1,0 +1,23 @@
+<div class="ui column">
+    <div class="ui raised segment">
+        <h1>
+            <i class="user plus icon"></i>
+            Login
+        </h1>
+        <!-- include ./partials/messages -->
+        <form class="ui form" action="/users/login" method="POST">
+            <div class="required field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Entre com seu Email" />
+            </div>
+            <div class="required field">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" placeholder="Entre com sua senha" />
+            </div>
+            <button type="submit" class="ui primary button">Login</button>
+        </form>
+        <small>
+            Não tem conta? <a href="/users/register">Registre-se</a>
+        </small>
+    </div>
+</div>

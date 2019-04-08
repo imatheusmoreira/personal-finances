@@ -1,47 +1,77 @@
-require('./models/db');
-
+// Declaração dos require
 var express = require('express'),
     exphbs = require('express-handlebars'),
     bodyparser = require('body-parser'),
     Handlebars = require('handlebars'),
     HandlebarsIntl = require('handlebars-intl'),
+    passport = require('passport'),
+    flash = require('connect-flash'),
+    session = require('express-session'),
     app = express();
 
-const inicioController = require('./controllers/inicio.controller');
-const contaController = require('./controllers/conta.controller');
+// Configuração do Passport
+require('./config/passport')(passport);
 
-app.use(bodyparser.urlencoded({
-    extended: true
-}));
+// Configuração do Banco de Dados
+require('./config/db');
 
-app.use(bodyparser.json());
-
-//Configuracao do motor de templates
+// Configuracao do motor de templates HBS
 app.engine('hbs', exphbs({
     extname: 'hbs',
     defaultLayout: 'layoutPrincipal',
     layoutsDir: __dirname + '/views/layouts/',
     partialsDir: __dirname + '/views/partials/'
 }));
-
+app.set('view engine', 'hbs');
 Handlebars.registerHelper('ifCond', function (v1, v2, options) {
     if (v1 === v2) {
         return options.fn(this);
     }
     return options.inverse(this);
 });
-
 HandlebarsIntl.__addLocaleData({ locale: "pt-BR" });
 HandlebarsIntl.registerWith(Handlebars);
 
-app.set('view engine', 'hbs');
+// Configuracao do bodyparser
+app.use(bodyparser.urlencoded({
+    extended: true
+}));
+app.use(bodyparser.json());
 
-const porta = 3000;
+// Express session
+app.use(
+    session({
+        secret: 'secret',
+        resave: true,
+        saveUninitialized: true
+    })
+);
 
-app.listen(process.env.PORT || porta, function () {
-    console.log("Express server ouvindo na porta %d em modo de %s", this.address().port, app.settings.env);
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Connect flash
+app.use(flash());
+
+// Global variables
+app.use(function (req, res, next) {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    next();
 });
 
+//Rotas
 app.use(express.static('./public'));
-app.use('/', inicioController);
-app.use('/contas', contaController);
+app.use('/', require('./controllers/inicio.controller'));
+app.use('/contas', require('./controllers/conta.controller'));
+app.use('/users', require('./controllers/users.js'));
+
+const porta = process.env.PORT || 3000;
+
+app.listen(porta, function () {
+    console.log("Express server ouvindo na porta %d em modo de %s", porta, app.settings.env);
+});
+
+

@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    carregaPaginaLoad('/inicio');
+
     $('.ui.dropdown').dropdown();
 
     $('.ui.sidebar').sidebar({
@@ -9,16 +11,16 @@ $(document).ready(function () {
 
 
     $('#inicio, #inicioM').on('click', function () {
-        window.location.href = '/';
+        carregaPaginaLoad('/inicio');
     });
     $('#vencidas, #vencidasM').on('click', function () {
-        window.location.href = '/contas/vencidas';
+        carregaPaginaLoad('/contas/vencidas');
     });
     $('#pagar, #pagarM').on('click', function () {
-        window.location.href = '/contas/pagar';
+        carregaPaginaLoad('/contas/pagar');
     });
     $('#historico, #historicoM').on('click', function () {
-        window.location.href = '/contas/historico';
+        carregaPaginaLoad('/contas/historico');
     });
 
     $('#nova, #novaM').on('click', function () {
@@ -44,4 +46,8 @@ function salvaConta() {
         }
 
     });
+}
+
+function carregaPaginaLoad(caminho){
+    jQuery(".pusher").load( caminho + ' #content');
 }

@@ -3,11 +3,13 @@ var router = express.Router();
 const mongoose = require('mongoose');
 const Conta = mongoose.model('Conta');
 
-router.post('/novo', (req, res) => {
+const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+
+router.post('/novo', ensureAuthenticated, (req, res) => {
     res.json(insereConta(req, res));
 });
 
-router.get(['/', '/pagar'], (req, res) => {
+router.get(['/', '/pagar'], ensureAuthenticated, (req, res) => {
     Conta
         .find({ 'status': 'Pagar' })
         .sort({ data_vencimento: 'asc' }) //Criteria can be asc, desc, ascending, descending, 1, or -1
@@ -24,11 +26,11 @@ router.get(['/', '/pagar'], (req, res) => {
         });
 });
 
-router.get('/pagar/:id', (req, res) => {
+router.get('/pagar/:id', ensureAuthenticated, (req, res) => {
     pagaConta(req, res);
 });
 
-router.get('/excluir/:id', (req, res) => {
+router.get('/excluir/:id', ensureAuthenticated, (req, res) => {
     Conta.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
             res.redirect('/contas/historico');
@@ -37,7 +39,7 @@ router.get('/excluir/:id', (req, res) => {
     });
 });
 
-router.get('/vencidas', (req, res) => {
+router.get('/vencidas', ensureAuthenticated, (req, res) => {
     Conta
         .find({ 'status': 'Pagar', data_vencimento: { $lte: new Date() } })
         .sort({ data_vencimento: 'asc' }) //Criteria can be asc, desc, ascending, descending, 1, or -1
@@ -54,7 +56,7 @@ router.get('/vencidas', (req, res) => {
         });
 });
 
-router.get('/historico', (req, res) => {
+router.get('/historico', ensureAuthenticated, (req, res) => {
     Conta.find((err, data) => {
         if (!err) {
             res.render('contas/contasHistorico', {

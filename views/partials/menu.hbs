@@ -1,0 +1,48 @@
+<div class="ui grid">
+
+    <div class="computer only row">
+        <div class="column">
+            <div class="ui menu">
+                <a id="inicio" class="item">Início</a>
+                <a id="vencidas" class="item">Contas Vencidas</a>
+                <a id="pagar" class="item">Contas a Pagar</a>
+                <a id="historico" class="item">Histórico</a>
+                <div class="right menu">
+                    <div class="item">
+                        <div class="two buttons">
+                            <button id="nova" name="nova" class="ui positive button" type="button">Nova</button>
+                            <div onclick="location.href='/users/logout'" class="ui negative button">Sair</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tablet mobile only row">
+        <div class="column">
+            <div class="ui menu">
+                <a id="mobile_item" class="item"><i class="bars icon"></i></a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="ui pushable segment">
+    <div class="ui sidebar vertical menu">
+        <a id="inicioM" class="item">Início</a>
+        <a id="vencidasM" class="item">Contas Vencidas</a>
+        <a id="pagarM" class="item">Contas a Pagar</a>
+        <a id="historicoM" class="item">Histórico</a>
+        <div class="item">
+            <div class="two buttons">
+                <button id="novaM" name="nova" class="ui positive button" type="button">Nova</button>
+                <div onclick="location.href='/users/logout'" class="ui negative button">Sair</div>
+            </div>
+        </div>
+    </div>
+    <div class="pusher"></div>
+       
+    </div>
+</div>

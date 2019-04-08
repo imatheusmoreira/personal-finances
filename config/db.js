@@ -6,4 +6,4 @@ mongoose.connect('mongodb+srv://root:root1234@cluster0-hublf.azure.mongodb.net/f
     else{ console.log('Erro na conexão com DB: '+err) }
 });
 
-require('./conta.model');
+require('../models/conta.model');
