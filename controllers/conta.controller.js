@@ -11,7 +11,7 @@ router.post('/novo', ensureAuthenticated, (req, res) => {
 
 router.get(['/', '/pagar'], ensureAuthenticated, (req, res) => {
     Conta
-        .find({ 'status': 'Pagar' })
+        .find({ 'id_usuario': req.user._id, 'status': 'Pagar' })
         .sort({ data_vencimento: 'asc' }) //Criteria can be asc, desc, ascending, descending, 1, or -1
         .exec(function (err, data) {
             if (!err) {
@@ -41,7 +41,7 @@ router.get('/excluir/:id', ensureAuthenticated, (req, res) => {
 
 router.get('/vencidas', ensureAuthenticated, (req, res) => {
     Conta
-        .find({ 'status': 'Pagar', data_vencimento: { $lte: new Date() } })
+        .find({ 'id_usuario': req.user._id, 'status': 'Pagar', data_vencimento: { $lte: new Date() } })
         .sort({ data_vencimento: 'asc' }) //Criteria can be asc, desc, ascending, descending, 1, or -1
         .exec(function (err, data) {
             if (!err) {
@@ -57,7 +57,7 @@ router.get('/vencidas', ensureAuthenticated, (req, res) => {
 });
 
 router.get('/historico', ensureAuthenticated, (req, res) => {
-    Conta.find((err, data) => {
+    Conta.find({ 'id_usuario': req.user._id }, (err, data) => {
         if (!err) {
             res.render('contas/contasHistorico', {
                 viewTitle: "Todas as Contas",
@@ -73,11 +73,11 @@ router.get('/historico', ensureAuthenticated, (req, res) => {
 //Funções
 function insereConta(req, res) {
     var conta = new Conta();
+    conta.id_usuario = req.user._id;
     conta.descricao = req.body.descricao;
     conta.data_vencimento = req.body.data_vencimento;
     conta.valor = req.body.valor;
     conta.status = req.body.status;
-    conta.data_de_insercao = new Date();
 
     conta.save((err, data) => {
         if (!err)
@@ -90,7 +90,7 @@ function insereConta(req, res) {
 
 function pagaConta(req, res) {
     Conta.findByIdAndUpdate({ _id: req.params.id }, { status: 'Pago' }, (err, doc) => {
-        if (!err) { res.redirect('/contas/historico'); }
+        if (!err) { res.redirect('/'); }
         else { console.log('Error during record update : ' + err); }
     });
 }

@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    carregaPaginaLoad('/inicio');
+    carregaPagina('/inicio');
 
     $('.ui.dropdown').dropdown();
 
@@ -11,16 +11,16 @@ $(document).ready(function () {
 
 
     $('#inicio, #inicioM').on('click', function () {
-        carregaPaginaLoad('/inicio');
+        carregaPagina('/inicio');
     });
     $('#vencidas, #vencidasM').on('click', function () {
-        carregaPaginaLoad('/contas/vencidas');
+        carregaPagina('/contas/vencidas');
     });
     $('#pagar, #pagarM').on('click', function () {
-        carregaPaginaLoad('/contas/pagar');
+        carregaPagina('/contas/pagar');
     });
     $('#historico, #historicoM').on('click', function () {
-        carregaPaginaLoad('/contas/historico');
+        carregaPagina('/contas/historico');
     });
 
     $('#nova, #novaM').on('click', function () {
@@ -38,16 +38,16 @@ function salvaConta() {
         data: $('#formConta').serialize(),
         success: function (data,status,xhr) {
             //do something with the data via front-end framework
-            location.reload();
+            carregaPagina('/contas/historico');
         },
         error: function (jqXhr, textStatus, errorMessage) {
             console.log('Algo deu errado!: ' + textStatus + ' - ' + errorMessage);
-            location.reload();
+            carregaPagina('/contas/historico');
         }
 
     });
 }
 
-function carregaPaginaLoad(caminho){
+function carregaPagina(caminho){
     jQuery(".pusher").load( caminho + ' #content');
 }

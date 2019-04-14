@@ -11,7 +11,7 @@ router.get('/', ensureAuthenticated, (req, res) => {
 
 router.get('/inicio', ensureAuthenticated, (req, res) => {
 
-    Conta.where({ 'status': 'Pagar', data_vencimento: { $lte: new Date() } }).countDocuments(function (err, count) {
+    Conta.where({ 'id_usuario': req.user._id, 'status': 'Pagar', data_vencimento: { $lte: new Date() } }).countDocuments(function (err, count) {
         if (!err) {
             res.render('painel', {
                 viewTitle: "Página Inicial",
@@ -27,9 +27,5 @@ router.get('/inicio', ensureAuthenticated, (req, res) => {
     });
 
 });
-
-function contaVencidas() {
-
-}
 
 module.exports = router;

@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 var contaSchema = new mongoose.Schema({
+    id_usuario: {
+        type: String,
+        required: true
+    },
     descricao: {
         type: String,
         required: 'Insira uma descrição.'
@@ -18,7 +22,8 @@ var contaSchema = new mongoose.Schema({
         required: 'Insira um status (Pagar ou Pago).'
     },
     data_de_insercao: {
-        type: Date
+        type: Date,
+        default: Date.now
     },
 });
 
