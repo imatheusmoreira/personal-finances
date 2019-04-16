@@ -1,54 +1,52 @@
-{{> menu}}
-<div id="content" class="ui segment">
-    <div class="ui secondary menu">
-        <div class="left menu">
-            <h1 class="ui header">
-                <i class="history icon"></i>{{viewTitle}}
-            </h1>
-        </div>
-        <div class="right menu">
-
-        </div>
+<div class="ui secondary menu">
+    <div class="left menu">
+        <h1 class="ui header">
+            <i class="history icon"></i>{{viewTitle}}
+        </h1>
     </div>
+    <div class="right menu">
 
-    <form class="ui form">
-
-        <table class="ui celled compact table">
-            <thead>
-                <tr>
-                    <th>Vencimento</th>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                    <th>Inserido há</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each list}}
-                <tr>
-                    <td>{{formatDate this.data_vencimento day="numeric" month="numeric" year="numeric"}}
-                        ({{formatRelative this.data_vencimento}})</td>
-                    <td>{{this.descricao}}</td>
-                    <td>{{this.valor}}</td>
-                    <td>{{formatRelative this.data_de_insercao}}</td>
-                    <td>
-                        <div class="ui fluid buttons">
-                            {{#ifCond this.status 'Pagar'}}
-                            <a href="/contas/pagar/{{this._id}}" class="ui positive button"
-                                onclick="return confirm('Tem certeza que deseja marcar esta conta como paga?');">Pagar</a>
-                            {{else}}
-                            <button class="ui primary button" type="button">Paguei</button>
-                            {{/ifCond}}
-                            <div class="or" data-text="ou"></div>
-                            <a href="/contas/excluir/{{this._id}}" class="ui negative button"
-                                onclick="return confirm('Tem certeza que deseja excluir esta conta?');">Apagar</a>
-                        </div>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </form>
+    </div>
 </div>
+
+<form class="ui form">
+
+    <table class="ui celled compact table">
+        <thead>
+            <tr>
+                <th>Vencimento</th>
+                <th>Descrição</th>
+                <th>Valor</th>
+                <th>Inserido há</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each list}}
+            <tr>
+                <td>{{formatDate this.data_vencimento day="numeric" month="numeric" year="numeric"}}
+                    ({{formatRelative this.data_vencimento}})</td>
+                <td>{{this.descricao}}</td>
+                <td>{{this.valor}}</td>
+                <td>{{formatRelative this.data_de_insercao}}</td>
+                <td>
+                    <div class="ui fluid buttons">
+                        {{#ifCond this.status 'Pagar'}}
+                        <a href="/contas/pagar/{{this._id}}" class="ui positive button"
+                            onclick="return confirm('Tem certeza que deseja marcar esta conta como paga?');">Pagar</a>
+                        {{else}}
+                        <button class="ui primary button" type="button">Paguei</button>
+                        {{/ifCond}}
+                        <div class="or" data-text="ou"></div>
+                        <a href="/contas/excluir/{{this._id}}" class="ui negative button"
+                            onclick="return confirm('Tem certeza que deseja excluir esta conta?');">Apagar</a>
+                    </div>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</form>
+
 
 {{> modalNovaConta}}

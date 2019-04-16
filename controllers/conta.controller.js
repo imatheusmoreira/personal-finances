@@ -17,6 +17,7 @@ router.get(['/', '/pagar'], ensureAuthenticated, (req, res) => {
             if (!err) {
                 res.render('contas/contasListagem', {
                     viewTitle: "Pagar",
+                    user: req.user,
                     list: data
                 });
             }
@@ -47,6 +48,7 @@ router.get('/vencidas', ensureAuthenticated, (req, res) => {
             if (!err) {
                 res.render('contas/contasListagem', {
                     viewTitle: "Vencidas",
+                    user: req.user,
                     list: data
                 });
             }
@@ -61,6 +63,7 @@ router.get('/historico', ensureAuthenticated, (req, res) => {
         if (!err) {
             res.render('contas/contasHistorico', {
                 viewTitle: "Todas as Contas",
+                user: req.user,
                 list: data
             });
         }

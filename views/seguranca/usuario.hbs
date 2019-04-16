@@ -1,0 +1,23 @@
+<div class="ui secondary menu">
+    <div class="left menu">
+        <h1 class="ui header">
+            <i class="user icon"></i>Eu
+        </h1>
+    </div>
+    <div class="right menu">
+
+    </div>
+</div>
+
+<div class="field">
+    <label>Meu Nome</label>
+    <input type="text" name="name" placeholder="Meu Nome" value='{{user.name}}' readonly>
+</div>
+<div class="field">
+    <label>Meu Email</label>
+    <input type="email" name="email" placeholder="Meu Email" value='{{user.email}}' readonly>
+</div>
+<div class="ui floating message" style="margin-top: 3%; text-align: center">
+    <p>{{user.name}}, infelizmente ainda não é possível alterar seus dados. Isso será possível logo logo ;)
+    </p>
+</div>

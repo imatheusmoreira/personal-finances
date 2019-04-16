@@ -6,10 +6,6 @@ const Conta = mongoose.model('Conta');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 router.get('/', ensureAuthenticated, (req, res) => {
-    res.render('inicio');
-});
-
-router.get('/inicio', ensureAuthenticated, (req, res) => {
 
     Conta.where({ 'id_usuario': req.user._id, 'status': 'Pagar', data_vencimento: { $lte: new Date() } }).countDocuments(function (err, count) {
         if (!err) {

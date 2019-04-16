@@ -4,13 +4,16 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 // Load User model
 const User = require('../models/user.model');
-const { forwardAuthenticated } = require('../config/auth');
+const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 // Login Page
-router.get('/login', forwardAuthenticated, (req, res) => res.render('seguranca/login'));
+router.get('/login', forwardAuthenticated, (req, res) => res.render('seguranca/login', {layout: false}));
 
 // Register Page
-router.get('/register', forwardAuthenticated, (req, res) => res.render('seguranca/registrar'));
+router.get('/register', forwardAuthenticated, (req, res) => res.render('seguranca/registrar', {layout: false}));
+
+// User Page
+router.get('/me', ensureAuthenticated, (req, res) => res.render('seguranca/usuario', { user: req.user}));
 
 // Register
 router.post('/register', (req, res) => {
@@ -30,7 +33,7 @@ router.post('/register', (req, res) => {
   }
 
   if (errors.length > 0) {
-    res.render('seguranca/registrar', {
+    res.render('seguranca/registrar', {layout: false}, {
       errors,
       name,
       email,
@@ -41,7 +44,7 @@ router.post('/register', (req, res) => {
     User.findOne({ email: email }).then(user => {
       if (user) {
         errors.push({ msg: 'Email already exists' });
-        res.render('seguranca/registrar', {
+        res.render('seguranca/registrar', {layout: false}, {
           errors,
           name,
           email,

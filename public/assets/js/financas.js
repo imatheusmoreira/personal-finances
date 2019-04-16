@@ -1,17 +1,28 @@
 $(document).ready(function () {
 
-    carregaPagina('/inicio');
+    //carregaPagina('/inicio');
 
     $('.ui.dropdown').dropdown();
+    $('select.dropdown').dropdown();
 
-    $('.ui.sidebar').sidebar({
-        context: $('.ui.pushable.segment'),
-        transition: 'overlay'
-    }).sidebar('attach events', '#mobile_item');
+    // fix menu when passed
+    $('.masthead').visibility({
+        once: false,
+        onBottomPassed: function () {
+            $('.fixed.menu').transition('fade in');
+        },
+        onBottomPassedReverse: function () {
+            $('.fixed.menu').transition('fade out');
+        }
+    });
+
+    // create sidebar and attach to menu open
+    $('.ui.sidebar').sidebar('attach events', '.toc.item');
+
 
 
     $('#inicio, #inicioM').on('click', function () {
-        carregaPagina('/inicio');
+        carregaPagina('/');
     });
     $('#vencidas, #vencidasM').on('click', function () {
         carregaPagina('/contas/vencidas');
@@ -21,6 +32,10 @@ $(document).ready(function () {
     });
     $('#historico, #historicoM').on('click', function () {
         carregaPagina('/contas/historico');
+    });
+
+    $('#conta, #contaM').on('click', function () {
+        carregaPagina('/users/me');
     });
 
     $('#nova, #novaM').on('click', function () {
@@ -36,7 +51,7 @@ function salvaConta() {
         dataType: 'json',
         timeout: 2000,
         data: $('#formConta').serialize(),
-        success: function (data,status,xhr) {
+        success: function (data, status, xhr) {
             //do something with the data via front-end framework
             carregaPagina('/contas/historico');
         },
@@ -48,6 +63,7 @@ function salvaConta() {
     });
 }
 
-function carregaPagina(caminho){
-    jQuery(".pusher").load( caminho + ' #content');
+function carregaPagina(caminho) {
+    //jQuery(".pusher").load(caminho + ' #content');
+    location.href = caminho;
 }
